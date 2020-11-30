@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "sourceMap": true,
+    "incremental": true,
+    "strict": true,
+    "types": ["node"]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

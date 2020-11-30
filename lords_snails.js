@@ -3,7 +3,7 @@
 //var contractAddress="0xE0aF939d88eE2f7dACe1161cf910A8d300019D39"; //ROPSTEN 2.1
 //var contractAddress="0x1443B778622e66924Af7B64c3dfb1A8B700AB0E8"; //ROPSTEN 3
 //var contractAddress="0xd0AD02a47132D4D9b7c557ff77Fb3e5C65B3942d"; //ROPSTEN 5
-var contractAddress="0x2a26b5d1eed284f403492044ef4106ef0ed9c60a"; //MAINNET
+var contractAddress="0x2a26b5d1eed284f403492044ef4106ef0ed9c60a"; //MAINNET testnet contract address to be filled accordingly
 
 //-- WEB3 DETECTION --//
 var web3;
@@ -80,7 +80,7 @@ window.onclick = function(event) {
 /* PAST EVENT LOG */
 
 var timeLaunch = 1548516649;
-var launchBlock = 7129676;
+var launchBlock = 1;
 
 var twoDaysBlock = 0;
 var ranLog = false;
@@ -243,7 +243,7 @@ var d_leaderboard = [
 	{ address: "0x0000222222223333444455556666777788889999", egg: 0, rank: 3 },
 	{ address: "0x0000333322223333444455556666777788889999", egg: 0, rank: 4 },
 	{ address: "0x0000444422223333444455556666777788889999", egg: 0, rank: 5 }
-];	
+];
 
 /* UTILITIES */
 
@@ -276,7 +276,7 @@ function date24() {
 	d = new Date();
 	datetext = d.toTimeString();
 	datetext = datetext.split(' ')[0];
-}	
+}
 
 //Get timestamp for log
 function dateLog(_blockNumber) {
@@ -291,13 +291,13 @@ function timeSinceGrab(){
 	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
 	a_timeSinceGrab = blocktime - a_lastGrab;
 	a_flipBonus = Math.floor(a_timeSinceGrab / 60); //1% per minute
-	
+
 	downtime_hours = Math.floor(a_timeSinceGrab / 3600);
 	downtime_minutes = Math.floor((a_timeSinceGrab % 3600) / 60);
 	//downtime_seconds = parseFloat((a_timeSincePlayerClaim % 3600) % 60).toFixed(0);
-	
+
 	doc_timeSinceGrab.innerHTML = "";
-	
+
 	if(downtime_hours > 0){
 		doc_timeSinceGrab.innerHTML = downtime_hours + " Hours ";
 		if(downtime_hours == 1){
@@ -309,23 +309,23 @@ function timeSinceGrab(){
 	}
 	if(downtime_minutes > 1){
 		doc_timeSinceGrab.innerHTML += downtime_minutes + " Minutes ";
-	} 
+	}
 	if(downtime_hours == 0 && downtime_minutes == 0){
 		doc_timeSinceGrab.innerHTML += "A few moments ";
-	}	
+	}
 }
 //Time since last claim, converted to text
 function timeSinceClaim(){
 	var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
 	a_timeSinceClaim = blocktime - a_lastClaim;
 	a_claimBonus = a_timeSinceClaim * 8 * a_gameRound; //8 per second per round
-	
+
 	downtime_hours = Math.floor(a_timeSinceClaim / 3600);
 	downtime_minutes = Math.floor((a_timeSinceClaim % 3600) / 60);
 	//downtime_seconds = parseFloat((a_timeSincePlayerClaim % 3600) % 60).toFixed(0);
-	
+
 	doc_timeSinceClaim.innerHTML = "";
-	
+
 	if(downtime_hours > 0){
 		doc_timeSinceClaim.innerHTML = downtime_hours + " Hours ";
 		if(downtime_hours == 1){
@@ -337,17 +337,17 @@ function timeSinceClaim(){
 	}
 	if(downtime_minutes > 1){
 		doc_timeSinceClaim.innerHTML += downtime_minutes + " Minutes ";
-	} 
+	}
 	if(downtime_hours == 0 && downtime_minutes == 0){
 		doc_timeSinceClaim.innerHTML += "A few moments ";
-	}	
+	}
 }
 
 //Downtime count
 function countDowntime(){
 		var blocktime = Math.round((new Date()).getTime() / 1000); //current blocktime should be Unix timestamp
 		a_downtime = a_nextRoundStart - blocktime;
-		
+
 		if(a_downtime > 0){
 			downtime_hours = Math.floor(a_downtime / 3600);
 			if(downtime_hours < 10) { downtime_hours = "0" + downtime_hours }
@@ -355,7 +355,7 @@ function countDowntime(){
 			if(downtime_minutes < 10) { downtime_minutes = "0" + downtime_minutes }
 			downtime_seconds = parseFloat((a_downtime % 3600) % 60).toFixed(0);
 			if(downtime_seconds < 10) { downtime_seconds = "0" + downtime_seconds }
-				
+
 			doc_gameActive.innerHTML = "will start in " + downtime_hours + ":" + downtime_minutes + ":" + downtime_seconds;
 		} else {
 			doc_gameActive.innerHTML = "is ready to start!";
@@ -374,7 +374,7 @@ function initUpdate(){
 	mainUpdate();
 	fastUpdate();
 	slowUpdate();
-}	
+}
 
 function mainUpdate(){
 	updateEthAccount();
@@ -419,16 +419,16 @@ function fastUpdate(){
 
 //Refreshes leaderboard
 function slowUpdate(){
-	
+
 	checkLeaderEgg0();
 	checkLeaderEgg1();
 	checkLeaderEgg2();
 	checkLeaderEgg3();
 	checkLeaderEgg4();
-	
+
 	slowupdateLeaderboard();
 	showLeaderboard();
-	
+
 	setTimeout(slowUpdate, 30000);
 }
 
@@ -442,7 +442,7 @@ function updateActiveInterface(){
 		interface_lord.style.display = "block";
 	}
 }
-		
+
 var leaderboardArray = [];
 leaderboardArray[0] = 0;
 leaderboardArray[1] = document.getElementById('eggking1');
@@ -463,7 +463,7 @@ function showLeaderboard() {
 }
 
 //Update for Leaderboard checking every address
-function slowupdateLeaderboard() {	
+function slowupdateLeaderboard() {
 	//Loop through Trees and store top ones to assign ranks
 	var avoidNext = [0, 0, 0, 0, 0];
 	for(k = 1; k < 6; k++) {
@@ -482,7 +482,7 @@ function slowupdateLeaderboard() {
 		////console.log("New rank " + k + " : " + d_leaderboard[topGuy].address);
 		avoidNext[topGuy] = 1;
 		////console.log("Next time, avoid indice " + topGuy);
-	}	
+	}
 	showLeaderboard();
 }
 
@@ -530,32 +530,32 @@ function updateText(){
 	doc_claimBonus.innerHTML = a_claimBonus;
 	doc_playerBalance.innerHTML = a_playerBalance;
 	doc_playerEgg.innerHTML = a_playerEgg;
-	
+
 	if(a_gameActive == true){
 		doc_gameRound.innerHTML = a_gameRound;
 		doc_gameActive.innerHTML = "is active!";
 		doc_gameText.innerHTML = "Grab Snails and Snag Eggs to Win the Prize!";
 		doc_roundPot.innerHTML = a_roundPot;
 		doc_winReq.innerHTML = a_gameRound * 1000000;
-		
+
 		for(i = 0; i < 8; i++){
 			changeText(i, doc_snailLevel, a_snailLevel);
 			changeText(i, doc_snailEgg, a_snailEgg);
 			changeText(i, doc_snailCost, a_snailCost);
 			changeSnailOwnerText(i);
 			changeGrabRewardText(i);
-		}		
+		}
 	} else {
 		doc_gameRound.innerHTML = (a_gameRound + 1);
 		doc_gameText.innerHTML = "Claim a Lord to own their Snail next round!";
 		doc_roundPot.innerHTML = formatEthValue(a_snailPot / 10);
 		doc_winReq.innerHTML = (a_gameRound + 1) * 1000000;
-						
+
 		for(i = 0; i < 8; i++){
 			changeText(i, doc_lordCost, a_lordCost);
 			changeLordOwnerText(i);
 		}
-	}	
+	}
 }
 
 /* FAST LOCAL UPDATES */
@@ -578,7 +578,7 @@ function fastupdateEtherShare(){
 	a_playerEtherShare = parseFloat(_reward).toFixed(10);
 	doc_playerEtherShare.innerHTML = a_playerEtherShare;
 }
-		
+
 function fastupdatePecanShare(){
 	var _millisecondSinceLast = parseFloat(timeNow) - parseFloat(a_playerLastClaim * 1000);
 	var _boostFactor = Math.floor((_millisecondSinceLast / 3600000) + parseFloat(4));
@@ -586,7 +586,7 @@ function fastupdatePecanShare(){
 	a_playerPecanShare = parseFloat(_reward).toFixed(0);
 	doc_playerPecanShare.innerHTML = numberWithSpaces(a_playerPecanShare);
 }
-		
+
 /* WEB3 CALLS */
 
 //Loop function for all snails and lords
@@ -607,7 +607,7 @@ function updateEthAccount(){
 function updateContractBalance(){
 	web3.eth.getBalance(contractAddress, function(error, result) {
 		if(!error) {
-			a_contractBalance = formatEthValue(web3.fromWei(result, 'ether')); 
+			a_contractBalance = formatEthValue(web3.fromWei(result, 'ether'));
 		}
 	});
 }
@@ -699,7 +699,7 @@ function updateLeaderEgg(){
 		a_leaderEgg = result;
 	});
 }
-		
+
 //Last Grab action globally
 function updateLastGrab(){
 	lastGrab(function(result) {
@@ -717,14 +717,14 @@ function updateLastClaim(){
 //Current player balance
 function updatePlayerBalance(){
 	GetPlayerBalance(m_account, function(result) {
-		a_playerBalance = formatEthValue(web3.fromWei(result,'ether'));		
+		a_playerBalance = formatEthValue(web3.fromWei(result,'ether'));
 	});
 }
 
 //Current player egg
 function updatePlayerEgg(){
 	GetPlayerEgg(m_account, function(result) {
-		a_playerEgg = result;		
+		a_playerEgg = result;
 	});
 }
 
@@ -890,7 +890,7 @@ function ComputeEgg(_flip,_id,callback){
 }
 
 
-function round(callback){    
+function round(callback){
     var outputData = myContract.round.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -920,7 +920,7 @@ function SnagEgg(_id,eth,callback){
 }
 
 
-function roundPot(callback){   
+function roundPot(callback){
     var outputData = myContract.roundPot.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -950,7 +950,7 @@ function lastGrab(callback){
 }
 
 
-function GrabSnail(_id,eth,callback){ 
+function GrabSnail(_id,eth,callback){
     var outputData = myContract.GrabSnail.getData(_id);
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData,value: eth},
     function(error,result){
@@ -981,8 +981,8 @@ function PayThrone(callback){
 
 
 function GetSnailLevel(_id,callback){
-    
-    
+
+
     var outputData = myContract.GetSnailLevel.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -998,8 +998,8 @@ function GetSnailLevel(_id,callback){
 
 
 function ClaimLord(_id,eth,callback){
-    
-    
+
+
     var outputData = myContract.ClaimLord.getData(_id);
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData,value: eth},
     function(error,result){
@@ -1015,8 +1015,8 @@ function ClaimLord(_id,eth,callback){
 
 
 function GetSnailOwner(_id,callback){
-    
-    
+
+
     var outputData = myContract.GetSnailOwner.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1030,7 +1030,7 @@ function GetSnailOwner(_id,callback){
     });
 }
 
-function leader(callback){  
+function leader(callback){
     var outputData = myContract.leader.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1044,7 +1044,7 @@ function leader(callback){
     });
 }
 
-function snailPot(callback){ 
+function snailPot(callback){
     var outputData = myContract.snailPot.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1058,7 +1058,7 @@ function snailPot(callback){
     });
 }
 
-function GetPlayerEgg(_player,callback){   
+function GetPlayerEgg(_player,callback){
     var outputData = myContract.GetPlayerEgg.getData(_player);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1072,7 +1072,7 @@ function GetPlayerEgg(_player,callback){
     });
 }
 
-function ComputeLordBonus(callback){ 
+function ComputeLordBonus(callback){
     var outputData = myContract.ComputeLordBonus.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1086,7 +1086,7 @@ function ComputeLordBonus(callback){
     });
 }
 
-function BeginRound(callback){  
+function BeginRound(callback){
     var outputData = myContract.BeginRound.getData();
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData},//, gasLimit: 1000000},
     function(error,result){
@@ -1100,7 +1100,7 @@ function BeginRound(callback){
     });
 }
 
-function WithdrawBalance(callback){  
+function WithdrawBalance(callback){
     var outputData = myContract.WithdrawBalance.getData();
     var endstr=web3.eth.sendTransaction({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1114,7 +1114,7 @@ function WithdrawBalance(callback){
     });
 }
 
-function GetPlayerBalance(_player,callback){  
+function GetPlayerBalance(_player,callback){
     var outputData = myContract.GetPlayerBalance.getData(_player);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1128,7 +1128,7 @@ function GetPlayerBalance(_player,callback){
     });
 }
 
-function thronePot(callback){  
+function thronePot(callback){
     var outputData = myContract.thronePot.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1142,7 +1142,7 @@ function thronePot(callback){
     });
 }
 
-function GetLordOwner(_id,callback){  
+function GetLordOwner(_id,callback){
     var outputData = myContract.GetLordOwner.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1156,7 +1156,7 @@ function GetLordOwner(_id,callback){
     });
 }
 
-function ComputeSnailCost(_id,callback){ 
+function ComputeSnailCost(_id,callback){
     var outputData = myContract.ComputeSnailCost.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1171,7 +1171,7 @@ function ComputeSnailCost(_id,callback){
 }
 
 
-function GetSnailSnag(_id,callback){  
+function GetSnailSnag(_id,callback){
     var outputData = myContract.GetSnailSnag.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1201,7 +1201,7 @@ function ComputeLordCost(_id,callback){
 }
 
 
-function nextRoundStart(callback){   
+function nextRoundStart(callback){
     var outputData = myContract.nextRoundStart.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1216,7 +1216,7 @@ function nextRoundStart(callback){
 }
 
 
-function victoryEgg(callback){  
+function victoryEgg(callback){
     var outputData = myContract.victoryEgg.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1231,7 +1231,7 @@ function victoryEgg(callback){
 }
 
 
-function GetLordLevel(_id,callback){  
+function GetLordLevel(_id,callback){
     var outputData = myContract.GetLordLevel.getData(_id);
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1245,7 +1245,7 @@ function GetLordLevel(_id,callback){
     });
 }
 
-function lastClaim(callback){  
+function lastClaim(callback){
     var outputData = myContract.lastClaim.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1259,7 +1259,7 @@ function lastClaim(callback){
     });
 }
 
-function gameActive(callback){  
+function gameActive(callback){
     var outputData = myContract.gameActive.getData();
     var endstr=web3.eth.call({to:contractAddress, from:null, data: outputData},
     function(error,result){
@@ -1300,8 +1300,8 @@ function checkHash(txarray, txhash) {
 
 function computeLeaderboard() {
 	var lowest = d_leaderboard[0].egg;
-	var position = 0; 
-	
+	var position = 0;
+
 	//Check lowest leader
 	var i = 0;
 	for(i = 0; i < 5; i++) {
@@ -1310,7 +1310,7 @@ function computeLeaderboard() {
 			position = i;
 		}
 	}
-	
+
 	//Check if new player is already on leaderboard, then check if new player can replace lowest
 	var notLeader = true;
 	for(k = 0; k < 5; k++) {
@@ -1351,7 +1351,7 @@ function runLog(){
 		myContract.allEvents({ fromBlock: twoDaysBlock, toBlock: 'latest' }).get(function(error, result){
 			if(!error){
 				//console.log(result);
-				var i = 0;				
+				var i = 0;
 				for(i = 0; i < result.length; i++){
 					if(checkHash(storetxhash, result[i].transactionHash) != 0) {
 						dateLog(result[i].blockNumber);
